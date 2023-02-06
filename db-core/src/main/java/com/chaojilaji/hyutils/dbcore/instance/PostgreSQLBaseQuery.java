@@ -484,7 +484,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
     }
 
     public List<Map<String, Object>> findAll() {
-        return this.find("*").defaultWhere().listMapGet();
+        return this.find("*").defaultWhere().orderBy(primaryKey,"desc").listMapGet();
     }
 
 //    public T findWithId(Object id) {
@@ -541,7 +541,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
     public T findModelBySimpleAndDeletedMarkTrue(Map<String, Object> andCondition) {
         if (Objects.isNull(andCondition)) andCondition = new HashMap<>();
         andCondition = removeNull(andCondition);
-        andCondition.put("deleted_mark", true);
+        andCondition.put("deleted_mark", null);
         AndWhereSyntaxTree andWhereSyntaxTree = null;
         if (checkMapContainsLikeInParam(andCondition)) {
             andWhereSyntaxTree = this.defaultAndWheresWithOperate(map2Triplet(andCondition));
@@ -635,7 +635,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
         } else {
             andWhereSyntaxTree = this.defaultAndWheres(andCondition);
         }
-        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).listMapGet();
+        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).orderBy(primaryKey,"desc").listMapGet();
         List<T> ans = new ArrayList<>();
         for (Map<String, Object> x : tmp) {
             T y = Json.toObject(Json.toJson(x), clazz);
@@ -655,7 +655,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
             andWhereSyntaxTree = this.defaultAndWheres(andCondition);
         }
 //        this.defaultAndWheres(andCondition);
-        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).listMapGet();
+        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).orderBy(primaryKey,"desc").listMapGet();
         List<T> ans = new ArrayList<>();
         for (Map<String, Object> x : tmp) {
             T y = Json.toObject(Json.toJson(x), clazz);
@@ -850,7 +850,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
         andWhereCondition.put("deleted_mark", false);
         andWhereCondition.put(MD5Utils.compMd5(orWhereSyntaxTree.toString() + LocalDateTime.now().toString()), orWhereSyntaxTree);
         AndWhereSyntaxTree andWhereSyntaxTree = this.defaultAndWheres(andWhereCondition);
-        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).listMapGet();
+        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).orderBy(primaryKey,"desc").listMapGet();
         List<T> ans = new ArrayList<>();
         for (Map<String, Object> x : tmp) {
             T y = Json.toObject(Json.toJson(x), clazz);
@@ -879,7 +879,7 @@ public class PostgreSQLBaseQuery<T> extends BaseQuery<T>
         andWhereCondition.put("deleted_mark", false);
         andWhereCondition.put(MD5Utils.compMd5(orWhereSyntaxTree.toString() + LocalDateTime.now().toString()), orWhereSyntaxTree);
         AndWhereSyntaxTree andWhereSyntaxTree = this.defaultAndWheres(andWhereCondition);
-        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).listMapGet();
+        List<Map<String, Object>> tmp = this.find("*").where(andWhereSyntaxTree).page(page).size(size).orderBy(primaryKey,"desc").listMapGet();
         List<T> ans = new ArrayList<>();
         for (Map<String, Object> x : tmp) {
             T y = Json.toObject(Json.toJson(x), clazz);

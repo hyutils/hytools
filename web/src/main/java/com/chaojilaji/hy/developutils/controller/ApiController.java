@@ -295,9 +295,10 @@ public class ApiController {
         if (!Constant.password.equals(RequestUtils.getPassword(request))){
             return Result.failure(CommonResultStatus.AUTH_WRONG);
         }
-        sysFuncApisRepository.updateById(id, SysFuncApis.builder()
-                .deletedMark(true)
-                .build());
+        sysFuncApisRepository.deleteById(id);
+//        sysFuncApisRepository.updateById(id, SysFuncApis.builder()
+//                .deletedMark(true)
+//                .build());
         return Result.success(CommonResultStatus.OK);
     }
 
@@ -522,9 +523,7 @@ public class ApiController {
         if (!Constant.password.equals(RequestUtils.getPassword(request))){
             return Result.failure(CommonResultStatus.AUTH_WRONG);
         }
-        sysBaseApisRepository.updateById(id, SysBaseApis.builder()
-                .deletedMark(true)
-                .build());
+        sysBaseApisRepository.deleteById(id);
         return Result.success(CommonResultStatus.OK);
     }
 }

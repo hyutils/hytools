@@ -104,8 +104,13 @@ public class SpireTest {
 
     @Test
     public void demo6(){
-        List<Vuln> vulns = WordUtils.getAllVulns(WordUtils.getDoc("D:\\2022项目\\记忆宫殿\\学习\\网络安全渗透测试漏洞报告-导入模板(带下拉)20221212.docx"));
+        List<Vuln> vulns = WordUtils.getAllVulns(WordUtils.getDoc("D:\\2022项目\\记忆宫殿\\学习\\网络安全渗透测试漏洞报告-导入模板(带下拉)20221215.docx"));
         System.out.println(vulns.size());
+    }
+
+    @Test
+    public void demo7(){
+        System.out.println("3".matches("3"));
     }
 
 

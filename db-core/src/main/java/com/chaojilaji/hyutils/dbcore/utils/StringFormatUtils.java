@@ -145,7 +145,11 @@ public class StringFormatUtils {
         for (String y : x) {
             Map<String, Object> params = new HashMap<>();
             params.put("key", snake(y, false));
-            params.put("value", tmp.get(y).toString());
+            Object val = tmp.get(y);
+            if (Objects.isNull(val)){
+                val = "";
+            }
+            params.put("value", val.toString());
             if (tmp.get(y) instanceof String) {
                 params.put("type", "String");
             } else if (tmp.get(y) instanceof Integer) {
@@ -251,7 +255,7 @@ public class StringFormatUtils {
                 put("dtoName", dtoName);
             }
         });
-        System.out.println(init);
+//        System.out.println(init);
         File file = new File(fileName);
         if (file.exists()) {
             try {

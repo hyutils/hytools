@@ -61,6 +61,10 @@ public interface SysBaseApisRepository {
         SysBaseApisQuery query = new SysBaseApisQuery();
         return query.updateById(id, Json.toMap(Json.toJson(value)));
     }
+    default Boolean deleteById(Long id){
+        SysBaseApisQuery query = new SysBaseApisQuery();
+        return query.delete(id);
+    }
 
     default Long count(SysBaseApis sysBaseApis) {
         SysBaseApisQuery sysBaseApisQuery = new SysBaseApisQuery();

@@ -11,6 +11,7 @@ public class Vuln {
     private String belongUnit;
     private String handleOrgName;
     private String handleRealName;
+    private String netWorkLocation;
 
     public void setValue(String name,String value){
         switch (name){
@@ -54,8 +55,20 @@ public class Vuln {
                 this.handleRealName = value;
                 break;
             }
+            case "网络位置":{
+                this.netWorkLocation = value;
+                break;
+            }
             default:break;
         }
+    }
+
+    public String getNetWorkLocation() {
+        return netWorkLocation;
+    }
+
+    public void setNetWorkLocation(String netWorkLocation) {
+        this.netWorkLocation = netWorkLocation;
     }
 
     public String getInfluenceTarget() {

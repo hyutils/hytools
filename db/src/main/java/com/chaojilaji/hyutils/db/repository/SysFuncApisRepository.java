@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+
 import com.chaojilaji.hyutils.dbcore.syntaxtree.AndWhereSyntaxTree;
 import com.chaojilaji.hyutils.dbcore.syntaxtree.WhereSyntaxTree;
 import org.springframework.util.StringUtils;
@@ -57,6 +58,7 @@ public interface SysFuncApisRepository {
         SysFuncApisQuery query = new SysFuncApisQuery();
         return query.updateByCondition(condition, value);
     }
+
     default Integer updateById(Long id, SysFuncApis value) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         return query.updateById(id, Json.toMap(Json.toJson(value)));
@@ -82,10 +84,11 @@ public interface SysFuncApisRepository {
         return sysFuncApisQuery.findListModelByOperateSimpleAnd(sysFuncApis, page, size);
     }
 
-    default List<SysFuncApis> findAllByCondition(SysFuncApis condition){
+    default List<SysFuncApis> findAllByCondition(SysFuncApis condition) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         return query.findByCondition(condition);
     }
+
     default List<SysFuncApis> findAllWithIn(Map<String, List<Triplet<String, String, Object>>> inMaps) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         Map<String, Object> andCondition = new HashMap<>();
@@ -99,10 +102,11 @@ public interface SysFuncApisRepository {
         List<Map<String, Object>> ans = query.find("*").where(andWhereSyntaxTree).listMapGet();
         List<SysFuncApis> sysFuncApiss = new ArrayList<>();
         for (Map<String, Object> x : ans) {
-            sysFuncApiss.add(Json.toObject(Json.toJson(x),SysFuncApis.class));
+            sysFuncApiss.add(Json.toObject(Json.toJson(x), SysFuncApis.class));
         }
         return sysFuncApiss;
     }
+
     default SysFuncApis findSysFuncApisByIdWithCache(Long id) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         String tmp = query.getFromCache("SysFuncApisRepository", "findSysFuncApisByIdWithCache", new HashMap<String, Object>() {
@@ -135,12 +139,13 @@ public interface SysFuncApisRepository {
         } else {
             SysFuncApis sysFuncApis = query.findModelBySimpleAnd(andCondition);
             if (Objects.nonNull(sysFuncApis)) {
-                query.putToCache("sysFuncApisRepository","findSysFuncApisByConditionWithCache",andCondition,Json.toJson(sysFuncApis));
+                query.putToCache("sysFuncApisRepository", "findSysFuncApisByConditionWithCache", andCondition, Json.toJson(sysFuncApis));
             }
             return sysFuncApis;
         }
     }
-// TODO: 2021/12/29 数据组相关
+
+    // TODO: 2021/12/29 数据组相关
     default List<SysFuncApis> findAllByCondition(SysFuncApis condition, List<Long> orgIds) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         return query.findByCondition(condition, orgIds);
@@ -173,12 +178,12 @@ public interface SysFuncApisRepository {
         SysFuncApisQuery sysFuncApisQuery = new SysFuncApisQuery();
         return sysFuncApisQuery.page(sysFuncApis, orgIds, page, size);
     }
-    // TODO: 2022/1/6 数据组 + owner_id作为条件 
+
+    // TODO: 2022/1/6 数据组 + owner_id作为条件
     default List<SysFuncApis> findAllByCondition(SysFuncApis condition, List<Long> orgIds, Long ownerId) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         return query.findByCondition(condition, orgIds, ownerId);
     }
-
 
 
     default SysFuncApis findSysFuncApisByCondition(SysFuncApis condition, List<Long> orgIds, Long ownerId) {
@@ -200,6 +205,11 @@ public interface SysFuncApisRepository {
         return query.updateByCondition(condition, orgIds, ownerId, value);
     }
 
+    default Boolean deleteById(Long id) {
+        SysFuncApisQuery query = new SysFuncApisQuery();
+        return query.delete(id);
+    }
+
     default Long count(SysFuncApis sysFuncApis, List<Long> orgIds, Long ownerId) {
         SysFuncApisQuery sysFuncApisQuery = new SysFuncApisQuery();
         return sysFuncApisQuery.count(sysFuncApis, orgIds, ownerId);
@@ -210,15 +220,15 @@ public interface SysFuncApisRepository {
         return sysFuncApisQuery.page(sysFuncApis, orgIds, ownerId, page, size);
     }
 
-// todo -- 可见范围相关，与数据组类似
+    // todo -- 可见范围相关，与数据组类似
     default List<SysFuncApis> page(SysFuncApis sysFuncApis, VisibleUser visibleUser, Integer page, Integer size) {
         SysFuncApisQuery query = new SysFuncApisQuery();
-        return query.page(sysFuncApis,visibleUser.getOrgIds(),visibleUser.getId(),page,size);
+        return query.page(sysFuncApis, visibleUser.getOrgIds(), visibleUser.getId(), page, size);
     }
 
     default Long count(SysFuncApis sysFuncApis, VisibleUser visibleUser) {
         SysFuncApisQuery sysFuncApisQuery = new SysFuncApisQuery();
-        return sysFuncApisQuery.count(sysFuncApis, visibleUser.getOrgIds(),visibleUser.getId());
+        return sysFuncApisQuery.count(sysFuncApis, visibleUser.getOrgIds(), visibleUser.getId());
     }
 
     default List<SysFuncApis> findAll(VisibleUser visibleUser) {
@@ -228,7 +238,7 @@ public interface SysFuncApisRepository {
 
     default SysFuncApis findSysFuncApisByCondition(SysFuncApis condition, VisibleUser visibleUser) {
         SysFuncApisQuery query = new SysFuncApisQuery();
-        List<SysFuncApis> sysFuncApis = query.page(condition, visibleUser.getOrgIds(),visibleUser.getId(), 1, 1);
+        List<SysFuncApis> sysFuncApis = query.page(condition, visibleUser.getOrgIds(), visibleUser.getId(), 1, 1);
         if (sysFuncApis.size() != 0) {
             return sysFuncApis.get(0);
         }
@@ -237,10 +247,11 @@ public interface SysFuncApisRepository {
 
     default List<SysFuncApis> findAllByCondition(SysFuncApis condition, VisibleUser visibleUser) {
         SysFuncApisQuery query = new SysFuncApisQuery();
-        return query.findByCondition(condition, visibleUser.getOrgIds(),visibleUser.getId());
+        return query.findByCondition(condition, visibleUser.getOrgIds(), visibleUser.getId());
     }
-// like 相关 
-default SysFuncApis findSysFuncApisByLikeCondition(SysFuncApis condition) {
+
+    // like 相关
+    default SysFuncApis findSysFuncApisByLikeCondition(SysFuncApis condition) {
         SysFuncApisQuery query = new SysFuncApisQuery();
         String json = Json.toJson(condition);
         Map<String, Object> andCondition = Json.toMap(json);
@@ -334,4 +345,5 @@ default SysFuncApis findSysFuncApisByLikeCondition(SysFuncApis condition) {
             }
         }
         return query.count(params);
-    }}
+    }
+}

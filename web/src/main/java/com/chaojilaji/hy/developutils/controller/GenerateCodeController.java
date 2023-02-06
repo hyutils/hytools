@@ -224,6 +224,8 @@ public class GenerateCodeController {
                 .md5(md5)
                 .tableNumber(size)
                 .resultPath(folderName + "/result.zip")
+                .baseName(baseJarName)
+                .packageName(dbJarName)
                 .sourceCode(content).createTime(DatetimeUtil.getStrofTimestamp(id));
         if (Objects.nonNull(file)) {
             builder.fileName(file.getOriginalFilename());
